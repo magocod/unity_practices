@@ -133,6 +133,61 @@ namespace NetcodeDemo
             }
         }
 
+        public void TakeDamage()
+        {
+            if (!IsOwner)
+            {
+                return;
+            }
+
+
+            if (IsServer)
+            {
+                Debug.Log("ClientPlayerMove.OnTakeDamage ");
+                OnTakeDamage();
+            }
+            else
+            {
+                Debug.Log("ClientPlayerMove.OnTakeDamageServerRpc ");
+                OnTakeDamageServerRpc();
+            }
+        }
+
+
+        [ServerRpc]
+        private void OnTakeDamageServerRpc()
+        {
+            OnTakeDamage();
+        }
+
+
+        private void OnTakeDamage()
+        {
+
+            // error setting color
+            // var meshRenderer = GetComponent<MeshRenderer>();
+            // var m_InstanceMaterial = new Material(meshRenderer.material);
+            // meshRenderer.material = m_InstanceMaterial;
+
+            // m_InstanceMaterial.SetColor("_BaseColor", Color.black);
+
+            // local
+            // var healtBar = gameObject.GetComponent<HealthBar>();
+            // if (healtBar != null)
+            // {
+            //     healtBar.Hurt();
+            // }
+
+            var healtBar = gameObject.GetComponent<ClientHealthBar>();
+            if (healtBar != null)
+            {
+                healtBar.ChangeHealthBarServerRpc(1);
+            }
+            
+
+            // Debug.Log("ClientPlayerMove.OnTakeDamage ");
+        }
+
 
     }
 }

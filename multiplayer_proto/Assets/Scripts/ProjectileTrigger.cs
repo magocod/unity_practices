@@ -1,6 +1,8 @@
 using UnityEngine;
 using Unity.Netcode;
 
+using NetcodeDemo;
+
 public class ProjectileTrigger : NetworkBehaviour
 {
 
@@ -27,10 +29,13 @@ public class ProjectileTrigger : NetworkBehaviour
         {
             NetworkObject networkObject = collision.gameObject.GetComponent<NetworkObject>();
 
+            var clientPlayerMove = collision.gameObject.GetComponent<ClientPlayerMove>();
+
             //If the GameObject's name matches the one you suggest, output this message in the console
-            if (networkObject != null)
+            if (networkObject != null && clientPlayerMove != null)
             {
                 Debug.Log("ProjectileTrigger.OnCollisionEnter: PlayerNet id - " + networkObject.OwnerClientId);
+                clientPlayerMove.TakeDamage();
             }
             else
             {
@@ -44,7 +49,7 @@ public class ProjectileTrigger : NetworkBehaviour
             //If the GameObject has the same tag as specified, output this message in the console
             Debug.Log("ProjectileTrigger.OnCollisionEnter: Ground");
         }
-        
+
         // Debug.Log("ProjectileTrigger.OnCollisionEnter");
 
     }
