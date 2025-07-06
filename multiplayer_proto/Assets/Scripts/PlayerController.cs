@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using Unity.Netcode;
+
 using TMPro;
 
 
@@ -18,9 +20,13 @@ public class PlayerController : MonoBehaviour
 
     // Speed at which the player moves.
     public float speed = 3;
+    public float turnSpeed = 45.0f;
 
-    InputAction jumpAction;
-    InputAction attackAction;
+
+    // InputAction jumpAction;
+    public InputAction attackAction;
+
+    public GameObject projectilePrefab;
 
 
     // Start is called before the first frame update.
@@ -29,7 +35,7 @@ public class PlayerController : MonoBehaviour
         // Get and store the Rigidbody component attached to the player.
         rb = GetComponent<Rigidbody>();
 
-        jumpAction = InputSystem.actions.FindAction("Jump");
+        // jumpAction = InputSystem.actions.FindAction("Jump");
         attackAction = InputSystem.actions.FindAction("Attack");
 
     }
@@ -44,7 +50,7 @@ public class PlayerController : MonoBehaviour
         movementX = movementVector.x;
         movementY = movementVector.y;
 
-        Debug.Log("PlayerController.OnMove: x(" + movementX + ") y(" + movementY + ")");
+        // Debug.Log("PlayerController.OnMove: x(" + movementX + ") y(" + movementY + ")");
     }
 
     void Update()
@@ -52,17 +58,21 @@ public class PlayerController : MonoBehaviour
 
         // Vector2 moveValue = moveAction.ReadValue<Vector2>();
 
-        if (jumpAction.IsPressed())
-        {
-            // your jump code here
-            Debug.Log("PlayerController.Jump");
-        }
+        // if (jumpAction.IsPressed())
+        // {
+        //     // your jump code here
+        //     Debug.Log("PlayerController.Jump");
+        // }
 
-        if (attackAction.IsPressed())
-        {
-            // your jump code here
-            Debug.Log("PlayerController.Attack");
-        }
+        // if (attackAction.IsPressed())
+        // {
+        //     // your Attack code here
+        //     var instance = Instantiate(projectilePrefab);
+        //     var instanceNetworkObject = instance.GetComponent<NetworkObject>();
+        //     instanceNetworkObject.Spawn();
+
+        //     Debug.Log("PlayerController.Attack");
+        // }
     }
 
     // FixedUpdate is called once per fixed frame-rate frame.
@@ -72,6 +82,22 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
 
         // Apply force to the Rigidbody to move the player.
-        rb.AddForce(movement * speed);
+        // rb.AddForce(movement * speed);
+
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * movementY);
+        transform.Rotate(Vector3.up, turnSpeed * Time.deltaTime * movementX);
+
+        // Only execute on the Server
+
+        // if (attackAction.IsPressed())
+        // {
+        //     // your Attack code here
+        //     // var instance = Instantiate(projectilePrefab);
+        //     // var instanceNetworkObject = instance.GetComponent<NetworkObject>();
+
+        //     // instanceNetworkObject.Spawn();
+
+        //     Debug.Log("PlayerController.Attack ");
+        // }
     }
 }
