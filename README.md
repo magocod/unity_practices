@@ -31,21 +31,23 @@ It is the combination of the concepts of the courses (multiplayer_1, multiplayer
 # tanks multiplayer game
 
 ## Start game loading screen
-- [ ] step
-- [ ] step
+- [ ] loading screen
+- [ ] load scenes
 - [ ] step
 
-## Select tank
-- [ ] step
-- [ ] step
-- [ ] step
+![Tanks](img/tank_loading.png)
 
 ## Lobby
+- [ ] select tank
+- [ ] show player id
+- [ ] show other player connected
 - [ ] step
-- [ ] step
-- [ ] step
+
+![Tanks](img/tank_lobby.png)
 
 ## Gameplay
 - [ ] step
 - [ ] step
 - [ ] step
+
+![Tanks](img/tank_gameplay.png)
